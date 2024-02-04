@@ -4,6 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            input {
+                width: calc(100% - 20px);
+            }
+
+            button {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Hello, World!</h1>
@@ -25,3 +85,4 @@
     </ul>
 </body>
 </html>
+
