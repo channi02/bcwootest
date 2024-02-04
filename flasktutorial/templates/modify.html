@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Post</title>
+</head>
+<body>
+    <h1>Modify Post</h1>
+
+    <form action="/update/{{ post_id }}" method="post">
+        <label for="modified_data">Modify text:</label>
+        <input type="text" id="modified_data" name="modified_data" value="{{ post_content }}" required>
+        <button type="submit">Complete</button>
+    </form>
+</body>
+</html>

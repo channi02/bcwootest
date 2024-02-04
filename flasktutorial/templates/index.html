@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World App</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+
+    <form action="/process" method="post">
+        <label for="user_input">Enter text:</label>
+        <input type="text" id="user_input" name="user_input" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Posts:</h2>
+    <ul>
+        {% for post in posts %}
+            <li>{{ post[1] }} 
+                <a href="/modify/{{ post[0] }}">Modify</a> 
+                <a href="/delete/{{ post[0] }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
