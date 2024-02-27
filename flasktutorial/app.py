@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 
+import re
 import os
 import uuid
 
@@ -36,6 +37,19 @@ def delete_data(post_id):
         for id, data in all_data:
             file.write(f"{id},{data}\n")
 
+def add_data(post_id, amount):
+    all_data = load_data()
+    pattern = r'\((\d+)/(\d+)\)'
+    for i, (id, data) in enumerate(all_data):
+        if id == post_id:
+            new_data = re.sub(pattern, lambda match: f'({int(match.group(1)) + amount}/{match.group(2)})', data)
+            all_data[i] = (id, new_data)
+            break
+
+    with open(data_file_path, 'w') as file:
+        for id, data in all_data:
+            file.write(f"{id},{data}\n")
+
 @app.route('/')
 def index():
     posts = load_data()
@@ -68,6 +82,17 @@ def delete(post_id):
     posts = load_data()
     return render_template('index.html', posts=posts)
 
+@app.route('/up/<post_id>')
+def up(post_id):
+    add_data(post_id,1)
+    posts = load_data()
+    return render_template('index.html', posts=posts)
+
+@app.route('/down/<post_id>')
+def down(post_id):
+    add_data(post_id,-1)
+    posts = load_data()
+    return render_template('index.html', posts=posts)
 
 
 if __name__ == '__main__':
