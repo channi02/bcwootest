@@ -66,11 +66,19 @@
     </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <h1>Hello, World!2</h1>
 
     <form action="/process" method="post">
+        <label for="selected_file">Select a file:</label>
+        <select name="selected_file" id="selected_file">
+            <option value="nonselect">--list--</option>
+            {% for file in text_files%}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Read File</button>
         <label for="user_input">Enter text:</label>
-        <input type="text" id="user_input" name="user_input" required>
+        <input type="text" id="user_input" name="user_input">
         <button type="submit">Submit</button>
     </form>
 
