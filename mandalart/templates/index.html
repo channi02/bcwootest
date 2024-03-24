@@ -1,0 +1,142 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bcwoo's Mandalart chart</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-auto-rows: 150px; /* 셀 높이 조절 */
+            grid-gap: 5px;
+            height: calc(200vw); /* 너비의 2배로 높이 설정 */
+        }
+
+        .grid-item {
+            border: 1px solid black;
+            padding: 5px;
+            width: calc(100% - 12px);
+            height: calc(100% - 12px);
+            box-sizing: border-box;
+            overflow-wrap: break-word; /* 긴 단어가 너비를 벗어날 경우 개행 */
+        }
+        .gray-bg {
+            background-color: #ccc;
+        }
+
+        .white-bg {
+            background-color: #fff;
+        }
+        .sudoku-section:nth-child(odd) .gray-bg {
+            background-color: #ccc;
+        }
+
+        .sudoku-section:nth-child(odd) .white-bg {
+            background-color: #fff;
+        }
+
+        .sudoku-section:nth-child(even) .gray-bg {
+            background-color: #fff;
+        }
+
+        .sudoku-section:nth-child(even) .white-bg {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>bcwoo's Mandalart chart</h1>
+    <!-- 파일 선택을 위한 콤보박스 -->
+    <select id="fileSelect">
+        {% for file in files %}
+            <option value="{{ file }}">{{ file }}</option>
+        {% endfor %}
+    </select>
+    <button id="saveButton">Save Text</button>
+    <button id="loadButton">Load File</button>
+
+    <form id="form" method="POST">
+        <div class="grid-container" id="grid">
+            {% for i in range(81) %}
+                {% set row = i // 9 %}
+                {% set col = i % 9 %}
+                {% set section = (row // 3) * 3 + (col // 3) %}
+                {% if section % 2 == 0 %}
+                    {% if col+1 % 3 == 0 %}
+                        <input type="text" name="text{{ i }}" class="grid-item gray-bg" value="{{ initial_data[i] }}">
+                    {% else %}
+                        <input type="text" name="text{{ i }}" class="grid-item white-bg" value="{{ initial_data[i] }}">
+                    {% endif %}
+                {% else %}
+                    {% if col+1 % 3 == 0 %}
+                        <input type="text" name="text{{ i }}" class="grid-item white-bg" value="{{ initial_data[i] }}">
+                    {% else %}
+                        <input type="text" name="text{{ i }}" class="grid-item gray-bg" value="{{ initial_data[i] }}">
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </form>
+    
+
+    <script>
+        // 파일 선택 폼 제출 이벤트 핸들러
+        document.addEventListener('DOMContentLoaded', function() {
+            // 파일 불러오기 버튼 클릭 시 이벤트 처리
+            document.getElementById('loadButton').addEventListener('click', function() {
+                var selectedFile = document.getElementById('fileSelect').value;
+                fetch('/load?filename=' + selectedFile)
+                .then(response => response.json())
+                .then(data => {
+                    // 응답 데이터를 셀에 채우기
+
+                    // initial_data 갱신
+                    var initialData = Object.values(data);
+                    updateInitialData(initialData);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+                    // Save Text 버튼 클릭 시 이벤트 처리
+
+                document.getElementById('saveButton').addEventListener('click', function() {
+                    var formData = new FormData();
+                    var inputs = document.querySelectorAll('.grid-item');
+                    var selectedFile = document.getElementById('fileSelect').value;
+                    formData.append('path', selectedFile);
+                    inputs.forEach(function(input, index) {
+                        formData.append('text' + index, input.value);
+                    });
+
+                    fetch('/', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log(data); // 서버로부터의 응답 로그 출력
+                        alert('Text saved successfully.'); // 저장 성공 알림
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                        alert('Error occurred while saving text.'); // 저장 실패 알림
+                    });
+                });
+        });
+        // initial_data 갱신 함수
+        function updateInitialData(newData) {
+             var inputs = document.querySelectorAll('.grid-item');
+             inputs.forEach(function(input, index) {
+                 input.value = newData[index];
+             });
+        }
+    </script>
+</body>
+</html>
