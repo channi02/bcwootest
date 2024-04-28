@@ -57,6 +57,7 @@
     </select>
     <button id="saveButton">Save Text</button>
     <button id="loadButton">Load File</button>
+    <button id="resetButton">Reset Text</button> 
 
     <form id="form" method="POST">
         <div class="grid-container" id="grid">
@@ -129,6 +130,13 @@
                         alert('Error occurred while saving text.'); // 저장 실패 알림
                     });
                 });
+                            // Reset Text 버튼 클릭 시 이벤트 처리
+                document.getElementById('resetButton').addEventListener('click', function() {
+                    var inputs = document.querySelectorAll('.grid-item');
+                   inputs.forEach(function(input) {
+                    input.value = ''; // 모든 텍스트 필드의 값을 빈 값으로 초기화
+                  });
+               });
         });
         // initial_data 갱신 함수
         function updateInitialData(newData) {
