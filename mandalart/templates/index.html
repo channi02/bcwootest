@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bcwoo's Mandalart chart</title>
     <style>
+        body {
+            background-color: black;
+            color: lime; /* 녹색 텍스트 */
+        }
         .grid-container {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
@@ -16,35 +20,24 @@
         }
 
         .grid-item {
-            border: 1px solid black;
             padding: 5px;
             width: calc(100% - 12px);
             height: calc(100% - 12px);
             box-sizing: border-box;
             overflow-wrap: break-word; /* 긴 단어가 너비를 벗어날 경우 개행 */
+            background-color: black; /* 검은 배경 */
+            color: lime; /* 라임색 텍스트 */
+            border: 1px solid gray; /* 회색 테두리 */
         }
         .gray-bg {
-            background-color: #ccc;
+            background-color: #000;
         }
 
         .white-bg {
-            background-color: #fff;
-        }
-        .sudoku-section:nth-child(odd) .gray-bg {
-            background-color: #ccc;
+            background-color: black; /* 흰색 배경 */
+            border: 1px solid red; /* 흰색 테두리 */
         }
 
-        .sudoku-section:nth-child(odd) .white-bg {
-            background-color: #fff;
-        }
-
-        .sudoku-section:nth-child(even) .gray-bg {
-            background-color: #fff;
-        }
-
-        .sudoku-section:nth-child(even) .white-bg {
-            background-color: #ccc;
-        }
     </style>
 </head>
 <body>
